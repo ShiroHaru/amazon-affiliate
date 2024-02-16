@@ -1,0 +1,7 @@
+@each $property, $value in $radius-size {
+  .radius-#{$property} {
+    -webkit-border-radius: $value;
+    -moz-border-radius: $value;
+    border-radius: $value;
+  }
+}

@@ -1,0 +1,245 @@
+.first-last-child-my0 > *:first-child {
+  margin-top: 0px !important;
+}
+
+.first-last-child-my0 > *:last-child {
+  margin-bottom: 0px !important;
+}
+
+.first-last-child-py0 > *:first-child {
+  padding-top: 0px !important;
+}
+
+.first-last-child-py0 > *:last-child {
+  padding-bottom: 0px !important;
+}
+
+
+
+/* ----------------------------------------
+marginとpaddingのスペースをxsから6xlまでで定義する。
+・marginはnegativeを定義する
+・同じspacingでもmobileとtablet,desktopではスペースが異なるよう設定されている。
+・ブレイクポイントxs-xlでそれぞれ以上・以下で適用できる。例えばmd以上に適用やmd以下に適用など。
+
+サイズが大きくなるとモバイルよりもPCの方がスペースが大きくなる、これはPCでは適切なスペースでもモバイルでは大きすぎるため。
+クラス名のプレフィックス[r-]はresponsiveの[r]でmobileとtablet,desktopで値が変わる事を表す。
+ ---------------------------------------- */
+// 作成に必要なscss
+//@import "../../foundation/variable/spacing";
+//@import "../../lib/bootstrap-4-scss-parts/variables";
+//@import "../../lib/bootstrap-4-scss-parts/mixins/breakpoints";
+
+$up-down: (
+  down: (
+    'max-min': 'max',
+    'breakpoints': (
+      xs: (xs),
+      sm: (sm),
+      md: (sm, md),
+      lg: (sm, lg),
+    ),
+  ),
+  up: (
+    'max-min': 'min',
+    'breakpoints': (
+      xs: (xs, md),
+      sm: (sm, md),
+      md: (md),
+      lg: (lg),
+      xl: (xl)
+    ),
+  ),
+);
+
+$down-up-grid-breakpoints-size: (
+  down: (
+    xs: '575.98px',
+    sm: '767.98px',
+    md: '991.98px',
+    lg: '1199.98px',
+  ),
+  up: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px
+  )
+) !default;
+
+$grid-breakpoints-spacing: (
+  xs: $spacing-mobile,
+  sm: $spacing-mobile,
+  md: $spacing-desktop,
+  lg: $spacing-desktop,
+  xl: $spacing-desktop,
+) !default;
+
+// コメント出力用
+// xsからxlがそれぞれ$spacing-mobileか$spacing-desktopをマッピング
+$comment-grid-breakpoints-spacing: (
+  xs: 'mobile',
+  sm: 'mobile',
+  md: 'desktop',
+  lg: 'desktop',
+  xl: 'desktop',
+) !default;
+
+// コメント出力用
+$comment-down-up: (
+  down: '以下',
+  up: '以上',
+) !default;
+
+
+//self, childのループ
+@each $self-child in ('child', 'self') {
+  /* --------------------------------------------------------------------------------
+  #{$self-child}
+  -------------------------------------------------------------------------------- */
+  $class-char-self-child: '';
+  $class-sign-self-child: '';
+  @if $self-child == 'child' {
+    $class-char-self-child: '-child';
+    $class-sign-self-child: ' > *';
+  }
+
+  // positive, negativeのループ
+  @each $positive-negative in ('positive', 'negative') {
+    /* --------------------------------------------------------------------------------
+    #{$self-child} | #{$positive-negative}
+    -------------------------------------------------------------------------------- */
+    $class-char-positive-negative: '';
+    $val-positive-negative-sign: '';
+    @if $positive-negative == 'negative' {
+      $class-char-positive-negative: 'n';
+      $val-positive-negative-sign: '-';
+    }
+
+    // down, upのループ
+    @each $key-up-down, $val-up-down in $up-down {
+      /* --------------------------------------------------------------------------------
+      #{$self-child} | #{$positive-negative} | #{$key-up-down}
+      -------------------------------------------------------------------------------- */
+      $max-min: map-get($val-up-down, 'max-min');
+      $breakpoints: map-get($val-up-down, 'breakpoints');
+
+      // down,upで異なるデバイスワイド(xsからxlのどれか)のpxを取得
+      // $grid-breakpoints-size
+      // xs: 575.98px,
+      // sm: 767.98px,
+      // md: 991.98px,
+      // lg: 1199.98px,
+      $grid-breakpoints-size: map-get($down-up-grid-breakpoints-size, $key-up-down);
+
+      // デバイスワイドごとの表示非表示のループ
+      // 'breakpoints': (
+      //   xs: (xs),
+      //   sm: (sm),
+      //   md: (md, sm),
+      //   lg: (lg, sm),
+      //   xl: (xl, sm)
+      // ),
+      @each $display-range, $required-size in $breakpoints {
+        /* --------------------------------------------------------------------------------
+        #{$self-child} | #{$positive-negative} | #{$key-up-down} | デバイスワイド#{map-get($grid-breakpoints-size, $display-range)}#{map-get($comment-down-up, $key-up-down)}で適用されるspacing
+        -------------------------------------------------------------------------------- */
+
+        // デバイスワイドごとのspacingのループ
+        // $required-size
+        // (sm, md),
+        @each $size in $required-size {
+          /* ----------------------------------------
+          #{$self-child} | #{$positive-negative} | #{$key-up-down} | デバイスワイド#{map-get($grid-breakpoints-size, $display-range)}#{map-get($comment-down-up, $key-up-down)}で適用されるspacing | #{map-get($comment-grid-breakpoints-spacing, #{$size})}のspacing
+          ---------------------------------------- */
+
+          // down,upで異なるデバイスワイド(xsからxlのどれか)のpxを取得
+          // $grid-breakpoints-size
+          // xs: 575.98px,
+          // sm: 767.98px,
+          // md: 991.98px,
+          // lg: 1199.98px,
+          $breakpoint-px: map-get($grid-breakpoints-size, #{$size});
+
+
+          // @media
+          @media (#{$max-min}-width: #{$breakpoint-px}) {
+
+            // marginとpaddingのループ
+            // $spacing-properties: (
+            //  'margin': $margin-property,
+            //  'padding': $padding-property,
+            // );
+            @each $margin-padding, $properties in $spacing-properties {
+
+              // paddingのネガティブマージンを排除
+              @if not($margin-padding == "padding" and $positive-negative == 'negative') {
+
+                // marginかpaddingのループ
+                // ↓$propertiesは以下のmarginかpaddingのどちらか
+                // $margin-property: (
+                //   m:margin,
+                //   mt:margin-top,
+                //   ...
+                // $padding-property: (
+                //   p:padding,
+                //   pt:padding-top,
+                //   ...
+                @each $property-key, $property in $properties {
+
+                  // デバイスワイド(xsからxlのどれか)に対応したspacingのマップ($spacing-mobileか$spacing-desktop)を取得
+                  //$grid-breakpoints-spacing: (
+                  //  xs: $spacing-mobile,
+                  //  sm: $spacing-mobile,
+                  //  md: $spacing-desktop,
+                  //  lg: $spacing-desktop,
+                  //) !default;
+                  $spacing: map-get($grid-breakpoints-spacing, $size);
+
+                  //$spacing-[mobile or desktop]: (
+                  //  'xs': 0.25rem,
+                  //  'sm': 0.5rem,
+                  //  'md': 1rem,
+                  //  ...
+                  //);
+                  @each $size, $val in $spacing {
+
+                    // downの場合のみクラス名に-downを付ける
+                    $class-name: '';
+                    $class-char-up-down: '';
+                    @if $key-up-down == 'down' {
+                      $class-char-up-down: '-'+$key-up-down;
+                    }
+
+                    // up xs の場合クラス名を簡略化する
+                    // xs以上 = 全てに適用されるクラスなのでクラス名を簡略化する、例[r-m-xs-sm]を[r-m-sm]に変更
+                    $class-char-display-range: '-' + $display-range;
+                    @if $key-up-down == 'up' and $display-range == 'xs' {
+                      $class-char-display-range: '';
+                    }
+
+                    // クラスごとのコメント
+                    ///* r[responsive]-#{$property-key}[#{$property}]#{$class-char-display-range}[#{$max-min}-width:#{$breakpoint-px}]-#{$class-char-positive-negative}#{$size}[#{$val}]#{$class-char-self-child} | #{map-get($comment-grid-breakpoints-spacing, #{$size})} spacing */
+
+                    // 🍔クラス名
+                    .r-#{$property-key}#{$class-char-display-range}#{$class-char-up-down}-#{$class-char-positive-negative}#{$size}#{$class-char-self-child}#{$class-sign-self-child} {
+                      @if type-of($property) == list { // $propertyがmy(mx, py, px も同様)の場合(margin-top, margin-bottom)と複数のプロパティを持っているので処理を分ける。
+                        @each $p in $property {
+                          #{$p}: #{$val} !important;
+                        }
+                      } @else {
+                        #{$property}: #{$val-positive-negative-sign}#{$val} !important;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

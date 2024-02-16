@@ -1,0 +1,27 @@
+.no-list-style {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list-style-circle {
+  padding-left: 1.5em;
+
+  li {
+    list-style: circle;
+  }
+}
+
+.list-border-dashed {
+  li {
+    padding-bottom: .8em;
+    margin-bottom: .8em;
+    border-bottom: 1px dashed $color-default;
+
+    &:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+  }
+}

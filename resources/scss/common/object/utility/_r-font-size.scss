@@ -1,0 +1,69 @@
+/* ----------------------------------------
+フォントサイズをxsから5lxまで設定、mdは1erm(基本は16px)、
+mobileとtablet,desktopのフォントサイズを@mediaで切り替えている
+mobileの方がtablet,desktopよりフォントサイズが小さく設定されている
+クラス名のプレフィックス[r-]はresponsiveの[r]でmobileとtablet,desktopで値が変わる事を表す。
+ ---------------------------------------- */
+
+
+/* mobileのフォントサイズ */
+@each $class-name, $size in $font-size-mobile {
+  .r-fz-#{$class-name} {
+    font-size: #{$size} !important;
+  }
+}
+
+/* tablet,desktopのフォントサイズ */
+@include mq-up(md) {
+  @each $class-name, $size in $font-size-desktop {
+    .r-fz-#{$class-name} {
+      font-size: #{$size} !important;
+    }
+  }
+}
+
+/* 🍔 */
+$breakpoint-symbols: (
+  'sm',
+  'md',
+  'lg',
+  'xl',
+) !default;
+/* mobileのフォントサイズ */
+
+
+/* メディアクエリごとにしてできるフォントサイズ */
+
+$over-flg: false;
+@each $breakpoint in $breakpoint-symbols {
+  $breakpoint-size: '-' + #{$breakpoint};
+
+  @include mq-up($breakpoint) {
+    @if ($breakpoint == 'xs' or $breakpoint == 'sm' or $breakpoint == 'md') {
+      /* mobileのフォントサイズ */
+      @each $class-name, $size in $font-size-mobile {
+        @if $class-name == $breakpoint {
+          $over-flg: true;
+        }
+        @if #{$over-flg} {
+          .r-fz#{$breakpoint-size}-#{$class-name} {
+            font-size: #{$size} !important;
+          }
+        }
+      }
+    } @else {
+      /* tablet,desktopのフォントサイズ */
+      @each $class-name, $size in $font-size-desktop {
+        @if $class-name == $breakpoint {
+          $over-flg: true;
+        }
+        @if #{$over-flg} {
+          .r-fz#{$breakpoint-size}-#{$class-name} {
+            font-size: #{$size} !important;
+          }
+        }
+      }
+    }
+  }
+  $over-flg: false;
+}

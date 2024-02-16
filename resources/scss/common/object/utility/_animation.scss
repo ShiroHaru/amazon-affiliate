@@ -1,0 +1,15 @@
+//スクロールでフェードするアニメーション
+
+//アニメーション要素のスタイル
+.scroll-fade-animation{
+  opacity : 0;
+  visibility: hidden;
+  transition: .75s;
+  transform: translateY(24px);
+}
+//アニメーション要素までスクロールした時のスタイル
+.scroll-fade-animation-active{
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}

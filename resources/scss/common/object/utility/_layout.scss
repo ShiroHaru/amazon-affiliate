@@ -1,0 +1,128 @@
+/*containerの内側*/
+$container-inside-size: (
+  none: 0,
+  sm: 8,
+  md: 12,
+  lg: 18,
+  xl: 27,
+  '2xl': 40,
+  '3xl': 60,
+);
+
+@each $symbol in $breakpoint-symbols {
+  @each $size, $num in $container-inside-size {
+    $symbol-class-name: '';
+    @if ($symbol != 'xs') {
+      @include mq-up($symbol) {
+        .container-inside-#{$symbol}-#{$size} {
+          padding-left: #{$num / 2} + '%';
+          padding-right: #{$num / 2} + '%';
+        }
+      }
+    } @else {
+      .container-inside-#{$size} {
+        padding-left: #{$num / 2} + '%';
+        padding-right: #{$num / 2} + '%';
+      }
+    }
+  }
+}
+
+$container-outside-size: (
+  none: 0,
+  xs: 16,
+  sm: 32,
+  md: 64,
+  lg: 80,
+  xl: 120,
+  '2xl': 180,
+  '3xl': 280,
+);
+
+@each $symbol in $breakpoint-symbols {
+  @each $size, $num in $container-outside-size {
+
+    $symbol-class-name: '';
+    @if ($symbol != 'xs') {
+      $symbol-class-name: '-' + #{$symbol};
+    }
+
+    @include mq-up($symbol) {
+      .container-out-#{$symbol}-#{$size} {
+        width: calc(100% + #{$num *2 }px);
+        margin-left: -#{$num}px;
+        margin-right: -#{$num}px;
+      }
+    }
+  }
+}
+
+
+/*containerの外に広げる*/
+
+.container-out-lg {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+
+  @include mq-up(xl) {
+    width: calc(100% + 160px);
+    margin-left: -80px;
+    margin-right: -80px;
+  }
+}
+
+.container-out-xl {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+
+  @include mq-up(xl) {
+    width: calc(100% + 240px);
+    margin-left: -120px;
+    margin-right: -120px;
+  }
+}
+
+.container-out-2xl {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+
+  @include mq-up(xl) {
+    width: calc(100% + 360px);
+    margin-left: -180px;
+    margin-right: -180px;
+  }
+}
+
+.container-out-3xl {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+
+  @include mq-up(xl) {
+    width: calc(100% + 560px);
+    margin-left: -280px;
+    margin-right: -280px;
+  }
+}
+
+/*右側へ画面端まで要素を広げる（2カラム）*/
+.outside-right {
+  flex: 1;
+  margin-right: calc(50% - 50vw);
+}
+
+/*左側へ画面端まで要素を広げる（2カラム）*/
+.outside-left {
+  flex: 1;
+  margin-left: calc(50% - 50vw);
+}
+
+/*左右の要素を画面端まで広げる（2カラム）*/
+.outside-both {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}

@@ -1,0 +1,21 @@
+// 共通のmixin
+@import "../../foundation/variable/font-size";
+@import "../../foundation/variable/spacing";
+@import "../../foundation/variable/color";
+@import "../../foundation/variable/media-query";
+@import "../../foundation/mixin/media-query";
+@import "../../foundation/mixin/color";
+@import "../../foundation/variable/block";
+
+@import "image";
+@import "list";
+@import "r-font-size";
+@import "spacing";
+@import "width";
+@import "button";
+@import "block";
+@import "flex";
+@import "layout";
+@import "animation";
+@import "bootstrap5-extension";
+@import "text";

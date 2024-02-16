@@ -1,0 +1,87 @@
+/* ----------------------------------------
+画像の横幅と高さを揃え、どんな比率の画像でも完全にフィットさて、かつ横幅が変わっても縦横比を維持する。
+画像は親のボックスに横幅100%になるので横幅を指定する場合は親のボックスに.image-fitを指定する。
+親の.image-fitはデフォルトでは3:2比率になっており、他の比率をデフォルトにする場合は.image-fitのheightを変更する。
+デフォルトの比率以外を使用する場合は別の比率を追加するクラスを追加で設定する。
+16:9に設定する例) <div class="image-fit image-fit--16-9">
+ ---------------------------------------- */
+.image-fit {
+  position: relative !important;
+  width: 100% !important;
+  height: auto !important;
+  /* デフォルトの比率 */
+  padding-top: 66.6% !important; /*3:2*/
+}
+
+/*.image-fit.image-fit--16-9 {
+  padding-top: 56.25% !important; !*16:9*!
+}
+
+.image-fit.image-fit--4-3 {
+  padding-top: 75% !important; !*4:3*!
+}
+
+.image-fit.image-fit--3-2 {
+  padding-top: 66.6% !important; !*3:2*!
+}
+
+.image-fit.image-fit--1-1 {
+  padding-top: 100% !important; !*1:1*!
+}
+
+.image-fit.image-fit--1-045 {
+  padding-top: 45% !important;
+}*/
+
+
+
+$image-fit-ratio: (
+  '1-1': 100%,
+  '4-3': 75%,
+  '3-2': 66.6%,
+  '16-9': 56.25%,
+  '2-1': 50%,
+  '2-09': 45%,
+  '1-05': 50%,
+  '1-045': 45%,
+  '3-4' : 133.3%,
+  '2-3' : 150%,
+) !default;
+
+$breakpoints-size: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+) !default;
+
+@each $size, $breakpoint in $breakpoints-size {
+
+
+  @media (min-width: #{$breakpoint}) {
+    @each $ratio-name, $ratio-num in $image-fit-ratio {
+
+      @if $size == 'xs' {
+        .image-fit--#{$ratio-name} {
+          padding-top: $ratio-num !important;
+        }
+      }
+      @else {
+        .image-fit-#{$size}--#{$ratio-name} {
+          padding-top: $ratio-num !important;
+        }
+      }
+    }
+  }
+}
+
+
+.image-fit > img {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}

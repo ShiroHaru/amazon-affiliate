@@ -17,7 +17,10 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/dashboard';
+
+    //既定の名前空間を登録する
+    protected $namespace = 'App\Http\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -34,7 +37,13 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
+                ->namespace($this->namespace) //既定の名前空間を登録する
                 ->group(base_path('routes/web.php'));
+
+            //admin用のルーティングを設定
+            Route::middleware('web')
+                ->namespace($this->namespace) //既定の名前空間を登録する
+                ->group(base_path('routes/admin.php'));
         });
     }
 }

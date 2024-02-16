@@ -1,0 +1,24 @@
+$text-position: (
+  'left',
+  'right',
+  'center',
+) !default;
+
+@each $breakpoint in $breakpoint-symbols {
+  $size: '';
+  @if $breakpoint != 'xs' {
+    $size: '-' + #{$breakpoint};
+  }
+  @include mq-up($breakpoint) {
+
+    @each $position in $text-position {
+      .text#{$size}-#{$position} {
+        text-align: #{$position} !important;
+      }
+    }
+  }
+}
+
+.line-marker {
+  background:linear-gradient(transparent 60%, #ff0 60%);
+}

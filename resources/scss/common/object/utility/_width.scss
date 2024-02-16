@@ -1,0 +1,121 @@
+$wide-types: (
+  w: 'width',
+  'max-w': 'max-width',
+  'min-w': 'min-width',
+);
+
+@function str-replace($substr, $newsubstr, $str, $all:false) {
+  $pos: str-index($str, $substr);
+
+  @while $pos != null {
+    $strlen: str-length($substr);
+    $start: str-slice($str, 0, $pos - 1);
+    $end: str-slice($str, $pos + $strlen);
+    $str: $start + $newsubstr + $end;
+
+    @if $all == true {
+      $pos: str-index($str, $substr);
+    } @else {
+      $pos: null;
+    }
+  }
+  @return $str;
+}
+
+
+@each $wide-class-name, $wide-type in $wide-types {
+  @each $breakpoint in $breakpoint-symbols {
+    $size: '';
+    @if $breakpoint != 'xs' {
+      $size: '-' + #{$breakpoint};
+    }
+
+    @include mq-up($breakpoint) {
+
+      /* ----------------------------------------
+      withを5%単位で設定したutility
+       ---------------------------------------- */
+      @for $i from 1 through 10 {
+        .#{$wide-class-name}#{$size}-#{$i*5}ps {
+          #{$wide-type}: #{$i*5}#{'%'} !important;
+        }
+      }
+
+      @for $i from 1 through 30 {
+        .#{$wide-class-name}#{$size}-#{$i*10+50}ps {
+          #{$wide-type}: #{$i*10+50}#{'%'} !important;
+        }
+      }
+
+      /* ----------------------------------------
+      widthを5px単位で設定したutility
+       ---------------------------------------- */
+      @for $i from 1 through 100 {
+        .#{$wide-class-name}#{$size}-#{$i*5}px {
+          #{$wide-type}: #{$i*5}px !important;
+        }
+      }
+
+      /* ----------------------------------------
+      widthを0.5em単位で設定したutility
+       ---------------------------------------- */
+      // str-replace: クラス名に小数点を使えないのでアンダースコアに置換している。
+      // その際数値型だと置換でエラーとなるので文字列[em]を足して文字列に変換している。
+      @for $i from 1 through 20 {
+        .#{$wide-class-name}#{$size}-#{str-replace('.', '-', $i*0.5+"em")} {
+          #{$wide-type}: #{$i*0.5}em !important;
+        }
+      }
+    }
+  }
+}
+
+
+@each $breakpoint in $breakpoint-symbols {
+  $size: '';
+  @if $breakpoint != 'xs' {
+    $size: '-' + #{$breakpoint};
+  }
+
+  @include mq-up($breakpoint) {
+    /* ----------------------------------------
+    heightを5%単位で設定したutility
+     ---------------------------------------- */
+    @for $i from 1 through 10 {
+      .h#{$size}-#{$i*5}ps {
+        height: #{$i*5}#{'%'} !important;
+      }
+    }
+
+    @for $i from 1 through 30 {
+      .h#{$size}-#{$i*10+50}ps {
+        height: #{$i*10+50}#{'%'} !important;
+      }
+    }
+
+    /* ----------------------------------------
+    heightを5px単位で設定したutility
+     ---------------------------------------- */
+    @for $i from 1 through 100 {
+      .h#{$size}-#{$i*5}px {
+        height: #{$i*5}px !important;
+      }
+    }
+
+    /* ----------------------------------------
+    heightを0.5em単位で設定したutility
+     ---------------------------------------- */
+    // str-replace: クラス名に小数点を使えないのでアンダースコアに置換している。
+    // その際数値型だと置換でエラーとなるので文字列[em]を足して文字列に変換している。
+    @for $i from 1 through 20 {
+      .h#{$size}-#{str-replace('.', '-', $i*0.5+"em")} {
+        height: #{$i*0.5}em !important;
+      }
+    }
+  }
+}
+
+
+
+
+
