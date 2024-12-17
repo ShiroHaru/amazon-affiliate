@@ -5,24 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Feature extends Model
 {
     use HasFactory;
 
-    /**
-     * fillable
-     *
-     * @var array
-     */
+    //保存時に変更が可能なカラムを指定する
     protected $fillable = [
         'name',
-        'price',
-        'asin',
+        'description',
     ];
 
-    //多対多のリレーション
+    //一対多の子のcategoryへのリレーション
     public function categories()
     {
-        return $this->belongsToMany(Category::class)->withTimestamps();
+        return $this->hasMany(Category::class);
     }
 }

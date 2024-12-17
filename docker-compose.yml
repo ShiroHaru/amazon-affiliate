@@ -29,7 +29,7 @@ services:
             - mailpit
             - selenium
     phpmyadmin:
-        image: phpmyadmin/phpmyadmin
+        image: arm64v8/phpmyadmin
         links:
             - mysql:mysql
         ports:

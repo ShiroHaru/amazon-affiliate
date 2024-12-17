@@ -46,6 +46,26 @@ Breadcrumbs::for('admin.origins.edit', function ($trail) {
   $trail->push('オリジン 編集', url('admin/origins'));
 });
 
+//product
+//----------------------------------------
+//admin.products
+Breadcrumbs::for('admin.products', function ($trail) {
+  $trail->parent('admin');
+  $trail->push('商品 一覧', url('admin/products'));
+});
+
+//admin.products.show
+Breadcrumbs::for('admin.products.show', function ($trail) {
+  $trail->parent('admin.products');
+  $trail->push('商品 詳細', url('admin/products'));
+});
+
+//admin.products.edit
+Breadcrumbs::for('admin.products.edit', function ($trail) {
+  $trail->parent('admin.products');
+  $trail->push('商品 編集', url('admin/products'));
+});
+
 //example
 //----------------------------------------
 //admin.examples

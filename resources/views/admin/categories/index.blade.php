@@ -11,7 +11,6 @@
 {{-- メッセージ --}}
 @include('components.alert')
 
-{{-- 一覧 --}}
 <div class="">
   <div>
     <a href="{{ route('categories.create') }}" class="btn btn-primary btn-sm mb-2" role="button">新規登録</a>
@@ -28,7 +27,9 @@
           @foreach ($categories as $category)
           <tr>
             <td>{{ $category->id }}</td>
-            <td>{{ $category->name }}</td>
+            {{-- $category->depthの数だけスペースを入れる --}}
+            <td>{{ str_repeat("-", $category->depth * 2) . $category->name }}</td>
+
             <td class="w-100px">
               <div class="btn-group" role="group" aria-label="Basic outlined example">
                 {{-- 詳細 --}}
@@ -61,4 +62,39 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+{{-- <h1>カテゴリ一覧</h1>
+
+<form action="{{ route('categories.updateOrder') }}" method="POST">
+  @csrf
+  <ul id="category-list">
+    @foreach ($categories as $category)
+    <li data-id="{{ $category->id }}">
+      {{ str_repeat('--', $category->depth) }} {{ $category->name }}
+    </li>
+    @endforeach
+  </ul>
+  <button type="submit" class="btn btn-primary">並び順を保存</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui/1.12.1/jquery-ui.min.js"></script>
+<script>
+  $(function() {
+            $('#category-list').sortable({
+                update: function(event, ui) {
+                    var order = $(this).sortable('toArray', { attribute: 'data-id' });
+                    $('input[name="order"]').val(JSON.stringify(order));
+                }
+            });
+        });
+</script> --}}
+
+
+
+
 @stop

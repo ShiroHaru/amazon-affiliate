@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('features', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->comment('');
+            $table->text('description');
             $table->timestamps();
-
-            $table->text('name');
-            //カテゴリ階層用
-            //$table->unsignedBigInteger('parent_id')->nullable();
-            //$table->foreign('parent_id')->references('id')->on('categories');
         });
     }
 
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('features');
     }
 };

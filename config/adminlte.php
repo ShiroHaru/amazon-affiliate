@@ -317,6 +317,17 @@ return [
             'route' => 'categories.index',
             'active' => ['admin/categories/*'],
         ],
+
+        [
+            'text' => '商品',
+            'route' => 'products.index',
+            'active' => ['admin/products/*'],
+        ],
+        [
+            'text' => '機能',
+            'route' => 'features.index',
+            'active' => ['admin/features/*'],
+        ],
         [
             'text' => 'オリジン',
             'route' => 'origins.index',

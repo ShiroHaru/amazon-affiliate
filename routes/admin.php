@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,9 +44,16 @@ Route::prefix('/admin')->group(function () {
 
     //category
     Route::resource('categories', 'Admin\CategoryController');
+    Route::post('categories/update-order', [CategoryController::class, 'updateOrder'])->name('categories.updateOrder');
 
     //origin
     Route::resource('origins', 'Admin\OriginController');
+
+    //product
+    Route::resource('products', 'Admin\ProductController');
+
+    //feature
+    Route::resource('features', 'Admin\FeatureController');
 
     //imports
     Route::get('/import/feature', 'Admin\ImportController@feature');
